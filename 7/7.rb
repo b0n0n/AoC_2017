@@ -45,9 +45,15 @@ class Program
 		# find the unblanced one
 		comm = c_ws.max_by { |i| c_ws.count(i) }
 		prob_c = children.select{ |c| c.total_weight != comm}[0]
-		puts "part2: #{prob_c.name} from #{prob_c.weight}=>#{prob_c.weight+(comm-prob_c.total_weight)}" unless prob_c == nil
+		if prob_c != nil
+			fixed_weight = prob_c.weight+(comm-prob_c.total_weight)
+			puts "part2: #{prob_c.name} from #{prob_c.weight}=>#{fixed_weight}"
+			#  fixed it
+			prob_c.weight = fixed_weight
+		end
 
-		return weight + c_ws.inject(){ |sum, i| sum + i}
+		# fix it
+		return weight + children.reduce(0){ |sum, child| sum + child.total_weight}
 	end
 
 	def is_root
