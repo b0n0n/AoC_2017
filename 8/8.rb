@@ -13,9 +13,8 @@ c dec -10 if a >= 1
 c inc -20 if c == 10
 "
 input = File.open("data").read
-lines = input.strip.split("\n")
 
-regs = lines.map{ |line|
+regs = input.each_line.map{ |line|
 	"$" + line.split(" ")[0]
 }.uniq
 
@@ -23,11 +22,11 @@ regs.map { |reg_expr| eval(reg_expr + " = 0")}
 
 max = 0
 
-lines.map { |line|
+input.each_line{ |line|
 	n_expr = line.sub("inc", "+=").sub("dec", "-=")
 	n_expr = "$"+n_expr.sub("if ", "if $")
 	eval(n_expr)
-
+	# well it is slow.. but shorter code
 	max = [regs.map { |reg| eval(reg) }.max, max].max
 }
 
