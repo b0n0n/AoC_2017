@@ -32,10 +32,6 @@ class Stream
 		@data[@pos+=1]
 	end
 
-	def backup
-		@pos -= @width
-	end
-
 	def scan
 		@state = send(@state) until @state == nil
 	end
