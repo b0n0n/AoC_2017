@@ -16,7 +16,13 @@ $pairs = []
 $gps = $psz
 
 def find(pg)
+	init = pg
 	pg = $id[pg] until pg == $id[pg]
+	# compress the tree
+	while init != $id[init]
+		init, $id[init] = $id[init], pg
+	end
+
 	return pg
 end
 
