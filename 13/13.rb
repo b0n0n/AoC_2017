@@ -1,9 +1,6 @@
 =begin
 0, 1, 2, 3, 2, 1
 0, 1, 2, 3, 4, 5
-
-
-
 =end
 input = File.open("data").read.strip
 # input = "
@@ -20,16 +17,15 @@ class Firewall
 	end
 
 	def add_layer(depth, range)
-		@layers[depth] = [*0...range] + [*1...range-1].reverse
+		@layers[depth] = (range-1)*2
 		@max_depth = [@max_depth, depth].max
 	end
 
-	def scanner_pos(depth, picosecond)
+	def scanner_zero?(depth, picosecond)
 		layer = layers[depth]
-		return -1 if layer == nil
-		pos = layer[picosecond % layer.size]
-		range = (layer.size + 2 ) / 2
-		return pos, range
+		return false, -1 if layer == nil
+		pos = picosecond % layer
+		return pos == 0, layer/2+1
 	end
 
 	attr_reader :layers, :max_depth
@@ -50,8 +46,8 @@ def trip_severity(fw)
 	picosecond = 0
 	depth = 0
 	while depth <= fw.max_depth
-		pos, rng = fw.scanner_pos(depth, picosecond)
-		s += rng * depth if pos == 0
+		iszero, rng = fw.scanner_zero?(depth, picosecond)
+		s += rng * depth if iszero
 		picosecond, depth = picosecond+1, depth+1
 	end
 	return s
@@ -64,8 +60,8 @@ def escape(fw)
 		picosecond = delay
 		depth = 0
 		while depth <= fw.max_depth
-			pos, _ = fw.scanner_pos(depth, picosecond)
-			if pos == 0
+			iszero, _ = fw.scanner_zero?(depth, picosecond)
+			if iszero
 				caught = true
 				break
 			end
