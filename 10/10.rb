@@ -35,6 +35,6 @@ seq.cycle(64).each_with_index { |r_l, s_l|
 l.rotate!(-(t_r%l.size))
 
 hash = ""
-l.each_slice(16) { |i| hash += i.reduce(:^).to_s(16)}
+l.each_slice(16) { |i| hash += "%02x" % i.reduce(:^)}
 
 puts "part2 => #{hash}"
