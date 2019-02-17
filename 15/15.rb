@@ -1,9 +1,5 @@
 =begin
-
-generate A and B
-
-prev_v * factor
-
+how to make it faster?
 =end
 
 # part 1
