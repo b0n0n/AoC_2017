@@ -1,3 +1,5 @@
+-require "Set"
+
 input = "
 ../.# => ##./#../...
 .#./..#/### => #..#/..../..../#..#
@@ -145,6 +147,7 @@ def solve(input, pattern, iterations=2)
 	iterations.times {
 		init_p.enhance
 	}
+
 	return init_p.count("#")
 end
 
