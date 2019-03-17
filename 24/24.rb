@@ -1,6 +1,10 @@
 =begin
 just a bf solution which is super slow
-TODO: improve algorithm
+part1 => 1695
+part2 => 1673
+time spent => 208.6818
+
+similar to longest simple path problem
 =end
 require "set"
 
@@ -14,7 +18,7 @@ input = "\
 10/1
 9/10
 ".strip
-# input = File.open("data").read.strip
+input = File.open("data").read.strip
 
 class Component
 	@@id = -1
@@ -64,7 +68,6 @@ class Bridge
 
 end
 
-
 def init_components(input)
 	cps = []
 	input.each_line { |line|
@@ -75,6 +78,8 @@ def init_components(input)
 end
 
 def solve(input)
+	start_time = Time.now.to_f
+
 	cps = init_components(input)
 	bs = [Bridge.new]
 	s = Set.new(bs.map(&:hash))
@@ -100,6 +105,7 @@ def solve(input)
 
 	max_l = bs.map{ |b| b.components.size }.max
 	puts "part2 => #{bs.select { |b| b.components.size == max_l}.map(&:strength).max}"
+	puts "time spent => #{(Time.now.to_f - start_time).round(4)}"
 end
 
 solve(input)
